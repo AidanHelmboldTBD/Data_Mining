@@ -1,0 +1,115 @@
+html
+{
+	height:100%;
+}
+
+body
+{
+	display: flex;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-align: center;
+	align-items: stretch;
+	flex-direction: column;
+	background-color: #ADD8E6;
+	margin: 0;
+	height:100%;
+	min-width: 1024px;
+}
+
+/*Top Bar*/
+#topHeader
+{
+	width: 100%;
+	height: 25px;
+	border-bottom: 1px solid black;
+	display: flex;
+	justify-content: center;
+	background-color: #FFB6C1;
+	/*justify-content: space-around;
+	align-content: center;*/
+}
+
+#tableNameForm
+{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	background-color: #ADD8E6;
+}
+
+/*Center Bar*/
+#centerMainDiv
+{
+	height: calc(100% - 50px);
+	width: 100%;
+	display: flex;
+}
+
+/*left Bar*/
+#leftSelector
+{
+	width: 300px;
+	height: 100%;
+	border-right: 1px solid black;
+	display: block;
+	flex-direction: column;
+	background-color: #ADD8E6;
+}
+
+.selectorDiv
+{
+	height: 50%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: #FFB6C1;
+}
+
+#botSelector
+{
+	border-top: 1px solid black;
+}
+
+.selectorDivTitle
+{
+	height: 20px;
+	width: 100%;
+	text-align: center;
+}
+.DDs{
+	background-color: #ADD8E6;
+}
+
+#catColDD{
+	background-color: #ADD8E6;
+	overflow: auto;
+	height: 100%;
+	text-align: left;
+}
+
+#conColDD{
+	background-color: #ADD8E6;
+	overflow: auto;
+	height: 100%;
+	text-align: left;
+}
+
+#image{
+	height: 500px;
+	width: 800px;
+	left: 40%;
+	bottom: 8%;
+	position: absolute;
+}
+#graphData{
+	width: 4%;
+	left: 25%;
+	bottom: 8%;
+	position: absolute;
+	background-color: #FFB6C1;
+	font-size: 13px;
+}
+#tab{
+	position: absolute;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="height=device-height, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<!--<link rel="icon" href="http://www.openserve.co.za/open/static/web/images/favicon.ico" type="image/x-icon"/>-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/listgroup.js"></script>
+	<script src="/js/dm.js"></script>
+	<link href="/css/dm.css" rel="stylesheet">
+	<title>Data Mining</title>
+</head>
+<body onload="getClusterDBs(); getRunTables()">
+	<header id="topHeader">
+		<div>Run Tables</div>
+		<select class='DDs' id="databaseDD" name="databaseDD" onchange="getClusterTables()">
+			<option value="00">Select Database</option>
+		</select>
+		<select class='DDs' id="tableDD" name="tableDD">
+			<option value="00">Select Table</option>
+		</select>
+		<input type="button" id="run_table_but" onclick="run_cluster_python()">Run summary stats on selected table</input>
+
+	</header>
+	<header id="topHeader">
+		<div>View Run Tables</div>
+		<select class='DDs' id="runTableDD" name="runTableDD" onchange="dropList();getRunCols();">
+			<option value="00">Select Table</option>
+		</select>
+	</header>
+	<div id="centerMainDiv">
+		<div id="leftSelector">
+			<div id="topSelector" class="selectorDiv">
+				<div class="selectorDivTitle">Category</div>
+				<select id="catColDD" multiple="multiple "onchange="getGraph();getGraphInfo();"></select>
+			</div>
+			<div id="botSelector" class="selectorDiv">
+				<div class="selectorDivTitle">Graph</div>
+				<select id="conColDD" multiple="multiple" onchange="getGraph();getGraphInfo();"></select>
+			</div>
+		</div>
+	</div>
+	<img id='image' src=""/>
+	<table id="graphData" border="2">
+		<tr>
+			<td>colm</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>col_type</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>uniques</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>missing</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>mean</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>stddev</td>
+			<td></td>
+		</tr>
+	</table>
+	<div id="footer"></div>
+</body>
+<div id="tab"></div>
+</html>
