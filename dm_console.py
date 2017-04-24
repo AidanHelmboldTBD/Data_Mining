@@ -1,6 +1,7 @@
 from dm import g_barplot, g_histogram, g_scatter, g_chi2, g_kde
 
 import argparse
+import sys
 import logging
 
 from pyspark import SparkContext, SQLContext, SparkConf, HiveContext
@@ -30,7 +31,7 @@ def load_parquet(database, table, quiet):
 path = '/var/lib/hadoop-hdfs/Jannes Test/dm_library/graphs'
 http_path = 'http://cdh578egzp.telkom.co.za:8880/files/Jannes%20Test/dm_library/graphs'
 
-def create_table(df, table_name, sqlContext, cols = None, size_limit = 20):
+def create_table(df, table_name, sqlContext, cols = None, size_limit = 30):
     
     df.persist()
     no_plot_cols = []
@@ -46,7 +47,8 @@ def create_table(df, table_name, sqlContext, cols = None, size_limit = 20):
         cols = df.columns
 
     for c in cols:
-        print 'Getting {:s} data'.format(c)        
+        print 'Getting {:s} data'.format(c)  
+        sys.stdout.flush()
         
         #print("Producing graphs" + str(col_graphs))
         cols_complete.append(c)
@@ -75,10 +77,10 @@ def create_table(df, table_name, sqlContext, cols = None, size_limit = 20):
         null = df.where(F.col(c).isNull()).count()        
         print ('... nulls: {:d}'.format(null))
         
-        if (uniq < size_limit) & (col_type == 'categorical'):
+        if (uniq < size_limit) & (col_type in ['categorical', 'indicator']):
             g, g_path = g_barplot(df, c) 
         
-        if col_type == 'numeric':   
+        if col_type in ['numeric']:   
             df_sum = df.select(c).agg(F.avg(F.col(c)),
                                    F.stddev(F.col(c))).take(1)
             mean = df_sum[0][0]
@@ -104,14 +106,17 @@ def create_table(df, table_name, sqlContext, cols = None, size_limit = 20):
     # graph_schema_list = [T.StructField(x, T.StringType(), True) for x in col_graphs]
     # schema_list.extend(graph_schema_list)
     schema = T.StructType(schema_list)         
+    print schema
+    
     rdd = sc.parallelize(output) 
     
     hive = HiveContext(sc)
     hive.createDataFrame(rdd, schema=schema)\
         .write.mode('overwrite')\
-        .saveAsTable(table_name,format='parquet')    
+        .saveAsTable('datamining.' + table_name,format='parquet')    
     df.unpersist()
     print '... {:s} saved to cluster'.format(table_name)
+    sys.stdout.flush()
     
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
@@ -120,12 +125,9 @@ if __name__ == '__main__':
     ap.add_argument('-q', '--quiet', help='silence logging', action='store_true') 
     
     args = vars(ap.parse_args())     
-    print args    
-    
+    print args       
 
     df, sc, sqlContext = load_parquet(args['database'], args['table'], args['quiet'])               
-    print (df.count())
-
     create_table(df, 
                  '{:s}_{:s}'.format(args['database'], args['table']), 
                  sqlContext)

@@ -29,13 +29,13 @@ http_path = 'http://cdh578egzp.telkom.co.za:8880/files/Jannes%20Test/dm_library/
 def toPandas(df, n_partitions=None):
     if n_partitions is not None: 
         df = df.repartition(n_partitions)
-    df.persist()
+    # df.persist()
     def _map_to_pandas(rdds):
         return [pd.DataFrame(list(rdds))]
     df_pand = df.rdd.mapPartitions(_map_to_pandas).collect()
     df_pand = pd.concat(df_pand)
     df_pand.columns = df.columns
-    df.unpersist()
+    # df.unpersist()
     return df_pand
 
 def g_barplot(df, cat, outlier_thres = 0.05): #, df_name=''):
